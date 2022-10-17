@@ -1,29 +1,41 @@
 import React ,{ useState, useEffect}from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
-import youtube from "./apis/youtube";
+//import youtube from "./apis/youtube";
 import VideoList from "./components/VideoList";
 import VideoDetail from "./components/VideoDetail";
+import useVideos from "./hooks/useVideos";
+import usePosts from "./components/usePosts";
 
 const App = ()=>{
-  const [videos, setVideos] =useState([]);
+
+  const posts = usePosts();
+    
+    const renderedPosts = posts.map((post) => {
+        return <li key={post.id}>{post.title}</li>;
+    });
+  // const [videos, setVideos] =useState([]);
   const [selectedVideo, setSelectedVideo]= useState(null);
+  const [videos, search] = useVideos('Learn ReactJS')
+  // useEffect(()=>{
+  //   onTermSubmit('Learn ReactJS')
+
+  // },[]);
 
   useEffect(()=>{
-    onTermSubmit('Learn ReactJS')
+    setSelectedVideo(videos[0]);
+  },[videos]);
+  //setSelectedVideo(response.data.items[0]);
 
-  },[]);
+  // const onTermSubmit = async (term) => {
+  //   const response = await youtube.get("/search", {
+  //     params: {
+  //       q: term,
+  //     },
+  //   });
 
-  const onTermSubmit = async (term) => {
-    const response = await youtube.get("/search", {
-      params: {
-        q: term,
-      },
-    });
-    setVideos(response.data.items);
-    setSelectedVideo(response.data.items[0]);
-    
-  };
+  //   setVideos(response.data.items);
+  // };
   // const onVideoSelect = (video) => {
   //   setSelectedVideo(video);
   // };
@@ -32,7 +44,7 @@ const App = ()=>{
 
   return(
     <div className="ui container">
-    <SearchBar onFormSubmit={onTermSubmit} />
+    <SearchBar onFormSubmit={search} />
     <div className="ui grid">
       <div className="ui row">
         <div className="eleven wide column">
@@ -43,6 +55,10 @@ const App = ()=>{
           onVideoSelect={setSelectedVideo}
           videos={videos}
         />
+        <div>
+        <h3>Posts</h3>
+            <ul>{renderedPosts}</ul>
+        </div>
         </div>
       </div>
     </div>
