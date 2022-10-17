@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-const SearchBar = ({onFormSubmit}) => {
+const SearchBar = ({ onFormSubmit }) => {
   const [term, setTerm] = useState("");
 
   const onInputChange = (event) => {
@@ -12,16 +12,12 @@ const SearchBar = ({onFormSubmit}) => {
   };
   return (
     <div className="search-bar ui segment">
-      <p>This App is built with React!</p>
+      <p>This App is built with React by J.Q</p>
       <hr></hr>
       <form onSubmit={onSubmit} className="ui form">
         <div className="field">
           <label>Video Search</label>
-          <input
-            type="text"
-            value={term}
-            onChange={onInputChange}
-          />
+          <input type="text" value={term} onChange={onInputChange} />
         </div>
       </form>
     </div>
